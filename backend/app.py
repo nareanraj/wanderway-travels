@@ -13,19 +13,8 @@ app = Flask(__name__,
             static_folder=FRONTEND_DIR,
             template_folder=FRONTEND_DIR)
 
-# Configure CORS for production
-if os.environ.get('RAILWAY_ENVIRONMENT'):
-    # In production, allow specific origins
-    CORS(app, resources={
-        r"/api/*": {
-            "origins": ["https://*.railway.app", "http://localhost:*"],
-            "methods": ["GET", "POST", "OPTIONS"],
-            "allow_headers": ["Content-Type", "Authorization"]
-        }
-    })
-else:
-    # In development, allow all
-    CORS(app)
+# Simple CORS - allow all origins (for development and production)
+CORS(app)
 
 # In-memory storage (no database files)
 contacts = []
@@ -33,8 +22,11 @@ subscribers = []
 bookings = []
 
 # ========== API ROUTES ==========
-@app.route('/api/contact', methods=['POST'])
+@app.route('/api/contact', methods=['POST', 'OPTIONS'])
 def contact():
+    if request.method == 'OPTIONS':
+        return '', 200
+    
     try:
         data = request.get_json()
         
@@ -75,8 +67,11 @@ def contact():
         print(f"❌ Contact error: {str(e)}")
         return jsonify({'error': 'Server error'}), 500
 
-@app.route('/api/newsletter', methods=['POST'])
+@app.route('/api/newsletter', methods=['POST', 'OPTIONS'])
 def newsletter():
+    if request.method == 'OPTIONS':
+        return '', 200
+    
     try:
         data = request.get_json()
         
@@ -115,8 +110,11 @@ def newsletter():
         print(f"❌ Newsletter error: {str(e)}")
         return jsonify({'error': 'Server error'}), 500
 
-@app.route('/api/booking-inquiry', methods=['POST'])
+@app.route('/api/booking-inquiry', methods=['POST', 'OPTIONS'])
 def booking_inquiry():
+    if request.method == 'OPTIONS':
+        return '', 200
+    
     try:
         data = request.get_json()
         
@@ -176,7 +174,10 @@ def index():
 
 @app.route('/<path:path>')
 def serve_static(path):
-    return send_from_directory(FRONTEND_DIR, path)
+    try:
+        return send_from_directory(FRONTEND_DIR, path)
+    except:
+        return send_from_directory(FRONTEND_DIR, 'index.html')
 
 # Handle 404 errors
 @app.errorhandler(404)
@@ -189,7 +190,22 @@ def health_check():
     return jsonify({
         'status': 'healthy',
         'service': 'WanderWay Travels API',
-        'timestamp': datetime.now().isoformat()
+        'timestamp': datetime.now().isoformat(),
+        'environment': os.environ.get('RAILWAY_ENVIRONMENT', 'development')
+    })
+
+# ========== DEBUG ENDPOINTS ==========
+@app.route('/api/debug', methods=['GET'])
+def debug_info():
+    return jsonify({
+        'python_version': sys.version,
+        'flask_version': '2.3.3',
+        'current_dir': os.getcwd(),
+        'frontend_dir': FRONTEND_DIR,
+        'files_in_frontend': os.listdir(FRONTEND_DIR) if os.path.exists(FRONTEND_DIR) else 'Frontend directory not found',
+        'contacts_count': len(contacts),
+        'subscribers_count': len(subscribers),
+        'bookings_count': len(bookings)
     })
 
 # ========== STARTUP ==========
@@ -197,11 +213,10 @@ if __name__ == '__main__':
     print("\n" + "="*60)
     print("🚀 WANDERWAY TRAVELS - TRAVEL & TOURISM AGENCY")
     print("="*60)
-    print("📁 Backend: backend/app.py")
-    print("📁 Frontend: frontend/")
-    print("💾 Storage: In-memory (no database files)")
-    print("🌐 Server: http://localhost:5000")
-    print("📊 API: http://localhost:5000/api/stats")
+    print(f"📁 Backend: {BASE_DIR}")
+    print(f"📁 Frontend: {FRONTEND_DIR}")
+    print("💾 Storage: In-memory")
+    print("🌐 CORS: Enabled for all origins")
     print("="*60)
     print("✅ Ready for Railway Deployment!")
     print("="*60)
@@ -237,8 +252,13 @@ if __name__ == '__main__':
     
     # Get port from environment or default to 5000
     port = int(os.environ.get("PORT", 5000))
+    debug_mode = os.environ.get('FLASK_DEBUG', 'False').lower() == 'true'
+    
+    print(f"🌐 Starting server on port {port}")
+    print(f"🔧 Debug mode: {debug_mode}")
+    print("="*60)
     
     # Run the app
-    app.run(debug=os.environ.get('FLASK_DEBUG', 'False').lower() == 'true', 
+    app.run(debug=debug_mode, 
             host='0.0.0.0', 
             port=port)
