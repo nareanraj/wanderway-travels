@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WanderWay Travels - Discover Your Journey</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/animations.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@800;900&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="https://img.icons8.com/color/96/000000/compass.png">
+</head>
+<body>
+    <!-- 3D Background -->
+    <div class="background-3d">
+        <div class="parallax-layer layer-1"></div>
+        <div class="parallax-layer layer-2"></div>
+        <div class="parallax-layer layer-3"></div>
+        <div class="parallax-layer layer-4"></div>
+        <div class="floating-elements">
+            <div class="floating-element element-1"><i class="fas fa-mountain"></i></div>
+            <div class="floating-element element-2"><i class="fas fa-water"></i></div>
+            <div class="floating-element element-3"><i class="fas fa-tree"></i></div>
+            <div class="floating-element element-4"><i class="fas fa-cloud"></i></div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar glass-nav">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-compass"></i>
+                <span class="logo-text">WanderWay <span class="logo-highlight">Travels</span></span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#destinations" class="nav-link">Destinations</a></li>
+                <li><a href="#services" class="nav-link">Services</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <div class="nav-cta">
+                <!-- Theme Toggle -->
+                <div class="theme-toggle">
+                    <input type="checkbox" id="theme-switch" class="theme-switch">
+                    <label for="theme-switch" class="theme-label">
+                        <i class="fas fa-moon"></i>
+                        <i class="fas fa-sun"></i>
+                        <span class="theme-ball"></span>
+                    </label>
+                </div>
+                <button class="btn-holographic" onclick="openBookingModal()">
+                    <i class="fas fa-rocket"></i> Plan Your Trip
+                </button>
+                <div class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-background">
+            <div class="particles-container" id="particles"></div>
+            <div class="floating-shapes">
+                <div class="shape shape-1"></div>
+                <div class="shape shape-2"></div>
+                <div class="shape shape-3"></div>
+            </div>
+        </div>
+        <div class="hero-content">
+            <h1 class="hero-title glitch" data-text="Beyond Borders">
+                <span class="gradient-text">Beyond</span> Borders
+            </h1>
+            
+            <p class="hero-description">
+                We craft unforgettable journeys with cutting-edge technology 
+                and personalized service. Your adventure begins here.
+            </p>
+            <div class="hero-buttons">
+                <button class="btn-neon" onclick="scrollToDestinations()">
+                    <i class="fas fa-globe-americas"></i> Explore Destinations
+                </button>
+                <button class="btn-transparent" onclick="openVideoModal()">
+                    <i class="fas fa-play-circle"></i> Watch Journey
+                </button>
+            </div>
+        </div>
+        <div class="hero-stats">
+            <div class="stat-card hologram">
+                <div class="stat-icon"><i class="fas fa-users"></i></div>
+                <div class="stat-number" data-count="10000">0</div>
+                <div class="stat-label">Happy Travelers</div>
+            </div>
+            <div class="stat-card hologram">
+                <div class="stat-icon"><i class="fas fa-globe"></i></div>
+                <div class="stat-number" data-count="150">0</div>
+                <div class="stat-label">Destinations</div>
+            </div>
+            <div class="stat-card hologram">
+                <div class="stat-icon"><i class="fas fa-star"></i></div>
+                <div class="stat-number" data-count="98">0</div>
+                <div class="stat-label">Satisfaction Rate</div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <div class="mouse">
+                <div class="wheel"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Destinations Section -->
+    <section id="destinations" class="destinations">
+        <div class="section-header">
+            <h2 class="section-title">Featured <span class="gradient-text">Destinations</span></h2>
+            <p class="section-subtitle">Explore our handpicked global destinations with exclusive travel packages</p>
+        </div>
+        <div class="destinations-grid">
+            <!-- Destination cards loaded via JavaScript -->
+        </div>
+        
+        <!-- View All Destinations Button -->
+        <div class="view-all-container">
+            <button class="btn-neon" onclick="showAllDestinations()">
+                <i class="fas fa-compass"></i> View All 150+ Destinations
+            </button>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services">
+        <div class="section-header">
+            <h2 class="section-title">Our <span class="gradient-text">Services</span></h2>
+            <p class="section-subtitle">Comprehensive travel solutions powered by technology</p>
+        </div>
+        <div class="services-container">
+            <div class="service-card cyber-card">
+                <div class="service-icon">
+                    <i class="fas fa-vr-cardboard"></i>
+                </div>
+                <h3>VR Travel Preview</h3>
+                <p>Experience destinations in virtual reality before you travel with immersive 360° views.</p>
+                <div class="service-features">
+                    <span><i class="fas fa-check"></i> 360° Views</span>
+                    <span><i class="fas fa-check"></i> Hotel Previews</span>
+                    <span><i class="fas fa-check"></i> Interactive Tours</span>
+                </div>
+            </div>
+            <div class="service-card cyber-card">
+                <div class="service-icon">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <h3>AI Travel Assistant</h3>
+                <p>Personalized itinerary planning with artificial intelligence for the perfect trip.</p>
+                <div class="service-features">
+                    <span><i class="fas fa-check"></i> Smart Recommendations</span>
+                    <span><i class="fas fa-check"></i> Real-time Updates</span>
+                    <span><i class="fas fa-check"></i> Multilingual Support</span>
+                </div>
+            </div>
+            <div class="service-card cyber-card">
+                <div class="service-icon">
+                    <i class="fas fa-satellite"></i>
+                </div>
+                <h3>Satellite Tracking</h3>
+                <p>Real-time location tracking and emergency support for your peace of mind.</p>
+                <div class="service-features">
+                    <span><i class="fas fa-check"></i> GPS Monitoring</span>
+                    <span><i class="fas fa-check"></i> Weather Alerts</span>
+                    <span><i class="fas fa-check"></i> Emergency Response</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="section-header">
+            <h2 class="section-title">About <span class="gradient-text">WanderWay</span></h2>
+            <p class="section-subtitle">Redefining travel experiences since 2020</p>
+        </div>
+        <div class="about-container">
+            <div class="about-content">
+                <div class="about-text">
+                    <div class="mission-section cyber-card">
+                        <div class="about-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <h3>Our Mission</h3>
+                        <p>To revolutionize travel through technology, making every journey personalized, seamless, and unforgettable. We combine cutting-edge innovation with personalized service to create transformative travel experiences.</p>
+                    </div>
+                    
+                    <div class="vision-section cyber-card">
+                        <div class="about-icon">
+                            <i class="fas fa-bullseye"></i>
+                        </div>
+                        <h3>Our Vision</h3>
+                        <p>To become the world's most trusted travel technology company, connecting people with transformative experiences across the globe while setting new standards in sustainable and responsible tourism.</p>
+                    </div>
+                    
+                    <div class="values-section">
+                        <h3><i class="fas fa-handshake"></i> Our Core Values</h3>
+                        <div class="values-grid">
+                            <div class="value-card cyber-card">
+                                <div class="value-icon">
+                                    <i class="fas fa-shield-alt"></i>
+                                </div>
+                                <h4>Safety First</h4>
+                                <p>Your security is our top priority with 24/7 support, real-time tracking, and comprehensive travel insurance.</p>
+                            </div>
+                            
+                            <div class="value-card cyber-card">
+                                <div class="value-icon">
+                                    <i class="fas fa-lightbulb"></i>
+                                </div>
+                                <h4>Innovation</h4>
+                                <p>Constantly evolving with cutting-edge travel technology including AI, VR, and blockchain solutions.</p>
+                            </div>
+                            
+                            <div class="value-card cyber-card">
+                                <div class="value-icon">
+                                    <i class="fas fa-heart"></i>
+                                </div>
+                                <h4>Personalization</h4>
+                                <p>Tailored experiences designed specifically for each traveler's preferences and needs.</p>
+                            </div>
+                            
+                            <div class="value-card cyber-card">
+                                <div class="value-icon">
+                                    <i class="fas fa-leaf"></i>
+                                </div>
+                                <h4>Sustainability</h4>
+                                <p>Commitment to eco-friendly travel and supporting local communities worldwide.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="about-stats">
+                    <div class="stats-container">
+                        <div class="stat-item hologram">
+                            <div class="stat-icon">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <div class="stat-number">5+</div>
+                            <div class="stat-label">Years Experience</div>
+                        </div>
+                        
+                        <div class="stat-item hologram">
+                            <div class="stat-icon">
+                                <i class="fas fa-globe-americas"></i>
+                            </div>
+                            <div class="stat-number">150+</div>
+                            <div class="stat-label">Destinations</div>
+                        </div>
+                        
+                        <div class="stat-item hologram">
+                            <div class="stat-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="stat-number">10K+</div>
+                            <div class="stat-label">Happy Travelers</div>
+                        </div>
+                        
+                        <div class="stat-item hologram">
+                            <div class="stat-icon">
+                                <i class="fas fa-headset"></i>
+                            </div>
+                            <div class="stat-number">24/7</div>
+                            <div class="stat-label">Support</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Our Story Section -->
+            <div class="story-section">
+                <div class="story-content">
+                    <h3><i class="fas fa-history"></i> Our Story</h3>
+                    <p>Founded in 2020 by a team of travel enthusiasts and tech innovators, WanderWay Travels began with a simple vision: to merge the thrill of exploration with the power of technology.</p>
+                    <p>What started as a small startup has grown into a global travel technology company serving thousands of satisfied customers. We believe that travel should be accessible, safe, and extraordinary.</p>
+                    <p>Our team of experts works tirelessly to curate unique experiences, leverage cutting-edge technology, and provide unparalleled customer service.</p>
+                </div>
+                <div class="story-image cyber-card">
+                    <div class="story-placeholder">
+                        <i class="fas fa-compass"></i>
+                        <h4>Journey Since 2020</h4>
+                        <p>From startup to industry leader</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="section-header">
+            <h2 class="section-title">Get In <span class="gradient-text">Touch</span></h2>
+            <p class="section-subtitle">Ready for your next adventure? Contact us today!</p>
+        </div>
+        <div class="contact-container">
+            <div class="contact-info hologram">
+                <h3><i class="fas fa-headset"></i> Contact Information</h3>
+                <div class="contact-detail">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div>
+                        <h4>Headquarters</h4>
+                        <p>123 Future Street, Tech City</p>
+                    </div>
+                </div>
+                <div class="contact-detail">
+                    <i class="fas fa-phone"></i>
+                    <div>
+                        <h4>Phone</h4>
+                        <p>+1 (555) 123-4567</p>
+                    </div>
+                </div>
+                <div class="contact-detail">
+                    <i class="fas fa-envelope"></i>
+                    <div>
+                        <h4>Email</h4>
+                        <p>info@wanderwaytravels.com</p>
+                    </div>
+                </div>
+                <div class="contact-detail">
+                    <i class="fas fa-clock"></i>
+                    <div>
+                        <h4>Business Hours</h4>
+                        <p>Mon-Fri: 9AM-6PM</p>
+                        <p>Sat-Sun: 10AM-4PM</p>
+                    </div>
+                </div>
+                <div class="social-links">
+                    <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="contact-form-container">
+                <form id="contactForm" class="cyber-form">
+                    <div class="form-group">
+                        <input type="text" id="name" required placeholder=" ">
+                        <label for="name">Full Name *</label>
+                        <div class="form-line"></div>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="email" required placeholder=" ">
+                        <label for="email">Email Address *</label>
+                        <div class="form-line"></div>
+                    </div>
+                    <div class="form-group">
+                        <input type="tel" id="phone" placeholder=" ">
+                        <label for="phone">Phone Number</label>
+                        <div class="form-line"></div>
+                    </div>
+                    <div class="form-group">
+                        <select id="contactSubject" class="form-select" required>
+                            <option value="" disabled selected>Select Subject *</option>
+                            <option value="booking">Booking Inquiry</option>
+                            <option value="custom">Custom Package</option>
+                            <option value="corporate">Corporate Travel</option>
+                            <option value="support">Technical Support</option>
+                            <option value="other">Other</option>
+                        </select>
+                        <div class="form-line"></div>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="message" rows="4" required placeholder=" "></textarea>
+                        <label for="message">Your Message *</label>
+                        <div class="form-line"></div>
+                    </div>
+                    <button type="submit" class="btn-neon">
+                        <i class="fas fa-paper-plane"></i> Send Message
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <div class="logo">
+                    <i class="fas fa-compass"></i>
+                    <span class="logo-text">WanderWay <span class="logo-highlight">Travels</span></span>
+                </div>
+                <p>Redefining travel experiences with cutting-edge technology and personalized service since 2020.</p>
+                <div class="newsletter">
+                    <input type="email" placeholder="Enter your email" id="newsletterEmail">
+                    <button type="button" onclick="subscribeNewsletter()" class="btn-neon">
+                        <i class="fas fa-paper-plane"></i> Subscribe
+                    </button>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#destinations">Destinations</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Popular Destinations</h4>
+                <ul>
+                    <li><a href="#">Tokyo, Japan</a></li>
+                    <li><a href="#">Swiss Alps</a></li>
+                    <li><a href="#">Dubai, UAE</a></li>
+                    <li><a href="#">Bali, Indonesia</a></li>
+                    <li><a href="#">Santorini, Greece</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Technology</h4>
+                <ul>
+                    <li><a href="#">VR Travel Preview</a></li>
+                    <li><a href="#">AI Assistant</a></li>
+                    <li><a href="#">Mobile App</a></li>
+                    <li><a href="#">Satellite Tracking</a></li>
+                    <li><a href="#">Blockchain Security</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 WanderWay Travels. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a> | <a href="#">Cookie Policy</a></p>
+            <div class="tech-badges">
+                <span class="badge"><i class="fab fa-python"></i> Python Backend</span>
+                <span class="badge"><i class="fas fa-shield-alt"></i> Secure Booking</span>
+                <span class="badge"><i class="fas fa-bolt"></i> Fast Response</span>
+                <span class="badge"><i class="fas fa-globe"></i> Global Coverage</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Booking Modal -->
+    <div id="bookingModal" class="modal">
+        <div class="modal-content cyber-card">
+            <span class="close-modal" onclick="closeBookingModal()">&times;</span>
+            <h2><i class="fas fa-rocket"></i> Plan Your Journey</h2>
+            <form id="bookingForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <input type="text" id="bookingName" required placeholder=" ">
+                        <label for="bookingName">Full Name *</label>
+                        <div class="form-line"></div>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="bookingEmail" required placeholder=" ">
+                        <label for="bookingEmail">Email Address *</label>
+                        <div class="form-line"></div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <input type="text" id="bookingDestination" required placeholder=" ">
+                        <label for="bookingDestination">Destination *</label>
+                        <div class="form-line"></div>
+                    </div>
+                    <div class="form-group">
+                        <input type="date" id="bookingDate" required>
+                        <label for="bookingDate">Travel Date *</label>
+                        <div class="form-line"></div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <select id="bookingTravelers" required class="form-select">
+                            <option value="" disabled selected>Number of Travelers *</option>
+                            <option value="1">1 Traveler</option>
+                            <option value="2">2 Travelers</option>
+                            <option value="3">3 Travelers</option>
+                            <option value="4">4 Travelers</option>
+                            <option value="5+">5+ Travelers</option>
+                        </select>
+                        <label class="form-label-select">Number of Travelers *</label>
+                        <div class="form-line"></div>
+                    </div>
+                    <div class="form-group">
+                        <select id="bookingBudget" required class="form-select">
+                            <option value="" disabled selected>Budget Range *</option>
+                            <option value="Economy">Economy ($500-$1000)</option>
+                            <option value="Standard">Standard ($1000-$3000)</option>
+                            <option value="Premium">Premium ($3000-$5000)</option>
+                            <option value="Luxury">Luxury ($5000+)</option>
+                        </select>
+                        <label class="form-label-select">Budget Range *</label>
+                        <div class="form-line"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <textarea id="bookingRequests" rows="3" placeholder=" "></textarea>
+                    <label for="bookingRequests">Special Requests</label>
+                    <div class="form-line"></div>
+                </div>
+                <button type="submit" class="btn-neon">
+                    <i class="fas fa-paper-plane"></i> Submit Inquiry
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Loading Animation -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-content">
+            <div class="loading-logo">
+                <i class="fas fa-compass"></i>
+                <span>WanderWay</span>
+            </div>
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
+            </div>
+            <div class="loading-text">Initializing Travel System...</div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
