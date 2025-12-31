@@ -257,3 +257,9 @@ if __name__ == '__main__':
     app.run(debug=os.environ.get('FLASK_DEBUG', 'False').lower() == 'true', 
             host='0.0.0.0', 
             port=port)
+if __name__ == '__main__':
+    # All code inside MUST be indented (4 spaces or tab)
+    port = int(os.environ.get("PORT", 10000))
+    debug = os.environ.get('FLASK_DEBUG', 'False').lower() == 'true'
+    
+    app.run(debug=debug, host='0.0.0.0', port=port)
