@@ -207,16 +207,16 @@ def debug_info():
         'subscribers_count': len(subscribers),
         'bookings_count': len(bookings)
     })
-
 # ========== STARTUP ==========
 if __name__ == '__main__':
     print("\n" + "="*60)
     print("🚀 WANDERWAY TRAVELS - TRAVEL & TOURISM AGENCY")
     print("="*60)
-    print(f"📁 Backend: {BASE_DIR}")
-    print(f"📁 Frontend: {FRONTEND_DIR}")
-    print("💾 Storage: In-memory")
-    print("🌐 CORS: Enabled for all origins")
+    print("📁 Backend: backend/app.py")
+    print("📁 Frontend: frontend/")
+    print("💾 Storage: In-memory (no database files)")
+    print("🌐 Server: http://localhost:5000")
+    print("📊 API: http://localhost:5000/api/stats")
     print("="*60)
     print("✅ Ready for Railway Deployment!")
     print("="*60)
@@ -252,22 +252,8 @@ if __name__ == '__main__':
     
     # Get port from environment or default to 5000
     port = int(os.environ.get("PORT", 5000))
-    debug_mode = os.environ.get('FLASK_DEBUG', 'False').lower() == 'true'
-    
-    print(f"🌐 Starting server on port {port}")
-    print(f"🔧 Debug mode: {debug_mode}")
-    print("="*60)
     
     # Run the app
-    app.run(debug=debug_mode, 
+    app.run(debug=os.environ.get('FLASK_DEBUG', 'False').lower() == 'true', 
             host='0.0.0.0', 
             port=port)
-    # At the bottom of app.py
-    if __name__ == '__main__':
-    # Render uses port 10000 by default
-    port = int(os.environ.get("PORT", 10000))
-    # Disable debug mode in production
-    debug = os.environ.get('FLASK_DEBUG', 'False').lower() == 'true'
-    
-    app.run(host='0.0.0.0', port=port, debug=debug)
-            
