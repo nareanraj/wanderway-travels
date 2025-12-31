@@ -313,7 +313,7 @@ function initDestinationCards() {
         {
             name: "Tokyo Cyber City",
             image: "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-            price: "$2,499",
+            price: "₹2,499",
             days: "7 Days",
             description: "Experience futuristic Japan with neon lights, ancient temples, and cutting-edge technology",
             tags: ["Technology", "Culture", "Food"],
@@ -322,7 +322,7 @@ function initDestinationCards() {
         {
             name: "Swiss Alps Retreat",
             image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-            price: "$3,299",
+            price: "₹3,299",
             days: "10 Days",
             description: "Luxury mountain escape with ski resorts, spa treatments, and breathtaking alpine views",
             tags: ["Luxury", "Adventure", "Romantic"],
@@ -331,7 +331,7 @@ function initDestinationCards() {
         {
             name: "Dubai Oasis",
             image: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-            price: "$4,599",
+            price: "₹4,599",
             days: "8 Days",
             description: "Ultimate luxury experience with desert safaris, 7-star hotels, and architectural wonders",
             tags: ["Luxury", "Shopping", "Desert"],
@@ -340,7 +340,7 @@ function initDestinationCards() {
         {
             name: "Bali Paradise",
             image: "https://images.unsplash.com/photo-1537953773345-d172ccf13cf1?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-            price: "$1,899",
+            price: "₹1,899",
             days: "6 Days",
             description: "Tropical island getaway with pristine beaches, spiritual retreats, and exotic cuisine",
             tags: ["Beach", "Wellness", "Nature"],
@@ -349,7 +349,7 @@ function initDestinationCards() {
         {
             name: "New York Lights",
             image: "https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-            price: "$2,799",
+            price: "₹2,799",
             days: "5 Days",
             description: "The city that never sleeps with Broadway shows, iconic landmarks, and world-class dining",
             tags: ["City", "Culture", "Entertainment"],
@@ -358,7 +358,7 @@ function initDestinationCards() {
         {
             name: "Santorini Dreams",
             image: "https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-            price: "$2,999",
+            price: "₹2,999",
             days: "7 Days",
             description: "Mediterranean romance with white architecture, sunset views, and crystal-clear waters",
             tags: ["Romantic", "Beach", "Luxury"],
