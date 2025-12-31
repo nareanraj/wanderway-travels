@@ -262,3 +262,12 @@ if __name__ == '__main__':
     app.run(debug=debug_mode, 
             host='0.0.0.0', 
             port=port)
+    # At the bottom of app.py
+    if __name__ == '__main__':
+    # Render uses port 10000 by default
+    port = int(os.environ.get("PORT", 10000))
+    # Disable debug mode in production
+    debug = os.environ.get('FLASK_DEBUG', 'False').lower() == 'true'
+    
+    app.run(host='0.0.0.0', port=port, debug=debug)
+            

@@ -1,0 +1,13 @@
+﻿services:
+  - type: web
+    name: wanderway-travels
+    env: python
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: gunicorn backend.app:app
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.9.13
+      - key: FLASK_ENV
+        value: production
+      - key: FLASK_DEBUG
+        value: false
