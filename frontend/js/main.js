@@ -1,34 +1,42 @@
-// js/main.js
+// js/main.js - UPDATED WITH DARK MODE SELECT FIX
 
-// AUTO-DETECT API URL FOR LOCAL VS PRODUCTION
-const API_BASE_URL = window.location.origin + '/api';
-
-// Or use this more robust version:
+// API Configuration - AUTO DETECTS LOCAL VS PRODUCTION
 const API_BASE_URL = (function() {
+    const hostname = window.location.hostname;
+    const protocol = window.location.protocol;
+    
+    console.log('Hostname:', hostname);
+    console.log('Protocol:', protocol);
+    
     // If on Railway (production)
-    if (window.location.hostname.includes('railway.app')) {
+    if (hostname.includes('railway.app')) {
         return window.location.origin + '/api';
     }
     // If on localhost (development)
-    else if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+    else if (hostname === 'localhost' || hostname === '127.0.0.1') {
         return 'http://localhost:5000/api';
     }
-    // Fallback
+    // Fallback - use current origin
     else {
-        return '/api';
+        return window.location.origin + '/api';
     }
 })();
 
+console.log('🚀 API Base URL:', API_BASE_URL);
+
 // DOM Elements - Everything in one file
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM Loaded - Initializing components...');
+    
     // Initialize loading screen
     setTimeout(() => {
         const loadingScreen = document.getElementById('loadingScreen');
         if (loadingScreen) {
             loadingScreen.style.display = 'none';
             loadingScreen.style.opacity = '0';
+            console.log('✅ Loading screen hidden');
         }
-    }, 2000);
+    }, 1500);
 
     // Initialize all components
     initNavigation();
@@ -46,7 +54,31 @@ document.addEventListener('DOMContentLoaded', () => {
     initThemeToggle();
     init3DEffects();
     initParallax3D();
+    
+    // Initialize select dropdowns for dark mode
+    updateSelectDropdowns();
+    
+    // Test API connection on load
+    testAPIConnection();
 });
+
+// Test API Connection
+async function testAPIConnection() {
+    try {
+        console.log('Testing API connection to:', API_BASE_URL + '/health');
+        const response = await fetch(API_BASE_URL + '/health');
+        if (response.ok) {
+            const data = await response.json();
+            console.log('✅ API Connection Successful:', data);
+        } else {
+            console.warn('⚠️ API responded but with error:', response.status);
+        }
+    } catch (error) {
+        console.error('❌ API Connection Failed:', error);
+        // Show user-friendly message
+       // showNotification('');
+    }
+}
 
 // Navigation
 function initNavigation() {
@@ -87,7 +119,7 @@ function initHeaderScroll() {
     });
 }
 
-// Theme Toggle
+// Theme Toggle with Select Dropdown Fix
 function initThemeToggle() {
     const themeSwitch = document.getElementById('theme-switch');
     const html = document.documentElement;
@@ -99,11 +131,17 @@ function initThemeToggle() {
     html.setAttribute('data-theme', savedTheme);
     themeSwitch.checked = savedTheme === 'light';
     
+    // Fix select dropdowns on initial load
+    updateSelectDropdowns();
+    
     // Theme toggle event
     themeSwitch.addEventListener('change', () => {
         const newTheme = themeSwitch.checked ? 'light' : 'dark';
         html.setAttribute('data-theme', newTheme);
         localStorage.setItem('theme', newTheme);
+        
+        // Update select dropdowns
+        updateSelectDropdowns();
         
         // Smooth transition
         document.body.classList.add('theme-transition');
@@ -111,6 +149,45 @@ function initThemeToggle() {
             document.body.classList.remove('theme-transition');
         }, 300);
     });
+    
+    // Also update on theme attribute changes
+    const observer = new MutationObserver(() => {
+        updateSelectDropdowns();
+    });
+    observer.observe(html, { attributes: true, attributeFilter: ['data-theme'] });
+}
+
+// Update select dropdown colors based on theme
+function updateSelectDropdowns() {
+    const theme = document.documentElement.getAttribute('data-theme');
+    const selects = document.querySelectorAll('.form-select');
+    
+    selects.forEach(select => {
+        // Force update select styles for dark/light mode
+        if (theme === 'dark') {
+            select.style.backgroundColor = 'var(--glass-bg)';
+            select.style.color = 'var(--light-text)';
+            select.style.borderColor = 'var(--glass-border)';
+            
+            // Update all options
+            Array.from(select.options).forEach(option => {
+                option.style.backgroundColor = 'var(--dark-card)';
+                option.style.color = 'var(--light-text)';
+            });
+        } else {
+            select.style.backgroundColor = '#f8f9fa';
+            select.style.color = '#333';
+            select.style.borderColor = '#dee2e6';
+            
+            // Update all options
+            Array.from(select.options).forEach(option => {
+                option.style.backgroundColor = '#ffffff';
+                option.style.color = '#333';
+            });
+        }
+    });
+    
+    console.log(`✅ Updated select dropdowns for ${theme} mode`);
 }
 
 // Typewriter Effect
@@ -169,6 +246,9 @@ function initStatsCounter() {
     const statNumbers = document.querySelectorAll('.stat-number');
     if (statNumbers.length === 0) return;
     
+    // Fetch real stats from API
+    fetchStatsFromAPI();
+    
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -198,6 +278,33 @@ function initStatsCounter() {
     }, { threshold: 0.5 });
     
     observer.observe(document.querySelector('.hero-stats'));
+}
+
+// Fetch real stats from API
+async function fetchStatsFromAPI() {
+    try {
+        const response = await fetch(API_BASE_URL + '/stats');
+        if (response.ok) {
+            const data = await response.json();
+            console.log('📊 Real stats:', data);
+            
+            // Update stat cards with real data
+            const statCards = document.querySelectorAll('.stat-card');
+            if (statCards.length >= 3 && data.stats) {
+                // Update travelers count
+                const travelersCard = statCards[0];
+                const travelersNumber = travelersCard.querySelector('.stat-number');
+                if (travelersNumber) {
+                    travelersNumber.setAttribute('data-count', 10000 + data.stats.total_bookings * 100);
+                }
+                
+                // Update destinations count (static)
+                // Update satisfaction rate (static)
+            }
+        }
+    } catch (error) {
+        console.log('Using default stats (API unavailable)');
+    }
 }
 
 // Destination Cards
@@ -307,7 +414,7 @@ function initScrollAnimations() {
     });
 }
 
-// Contact Form
+// Contact Form - UPDATED FOR API
 function initContactForm() {
     const form = document.getElementById('contactForm');
     if (!form) return;
@@ -335,19 +442,37 @@ function initContactForm() {
         }
         
         try {
-            // Simulate API call
-            await new Promise(resolve => setTimeout(resolve, 1000));
+            showNotification('Sending message...', 'info');
             
-            showNotification('Message sent successfully! We will contact you soon.', 'success');
-            form.reset();
+            const response = await fetch(API_BASE_URL + '/contact', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                showNotification('Message sent successfully! We will contact you soon.', 'success');
+                form.reset();
+            } else {
+                showNotification(data.error || 'Failed to send message', 'error');
+            }
             
         } catch (error) {
+            console.error('Contact form error:', error);
             showNotification('Connection error. Please try again.', 'error');
         }
     });
 }
 
-// Booking Form
+// Booking Form - UPDATED FOR API
 function initBookingForm() {
     const form = document.getElementById('bookingForm');
     if (!form) return;
@@ -377,24 +502,51 @@ function initBookingForm() {
         }
         
         try {
-            // Simulate API call
-            await new Promise(resolve => setTimeout(resolve, 1000));
+            showNotification('Submitting booking inquiry...', 'info');
             
-            showNotification('Booking inquiry submitted successfully! Our travel experts will contact you within 24 hours.', 'success');
-            closeBookingModal();
-            form.reset();
+            const response = await fetch(API_BASE_URL + '/booking-inquiry', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                showNotification('Booking inquiry submitted successfully! Our travel experts will contact you within 24 hours.', 'success');
+                closeBookingModal();
+                form.reset();
+            } else {
+                showNotification(data.error || 'Failed to submit booking', 'error');
+            }
             
         } catch (error) {
+            console.error('Booking form error:', error);
             showNotification('Connection error. Please try again.', 'error');
         }
     });
 }
 
-// Newsletter
+// Newsletter - UPDATED FOR API
 function initNewsletter() {
     const newsletterBtn = document.querySelector('.newsletter button');
     if (newsletterBtn) {
         newsletterBtn.addEventListener('click', subscribeNewsletter);
+    }
+    
+    // Also handle form submit
+    const newsletterForm = document.querySelector('.newsletter');
+    if (newsletterForm) {
+        newsletterForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            subscribeNewsletter();
+        });
     }
 }
 
@@ -410,13 +562,31 @@ async function subscribeNewsletter() {
     }
     
     try {
-        // Simulate API call
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        showNotification('Subscribing...', 'info');
         
-        showNotification('Thank you for subscribing to our newsletter!', 'success');
-        emailInput.value = '';
+        const response = await fetch(API_BASE_URL + '/newsletter', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email })
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            showNotification('Thank you for subscribing to our newsletter!', 'success');
+            emailInput.value = '';
+        } else {
+            showNotification(data.error || 'Subscription failed', 'error');
+        }
         
     } catch (error) {
+        console.error('Newsletter error:', error);
         showNotification('Subscription failed. Please try again.', 'error');
     }
 }
@@ -759,4 +929,26 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+});
+
+// Debug helper - test API manually
+window.testAPI = function() {
+    console.log('Testing API endpoints...');
+    
+    fetch(API_BASE_URL + '/health')
+        .then(r => r.json())
+        .then(data => console.log('Health:', data))
+        .catch(e => console.error('Health failed:', e));
+    
+    fetch(API_BASE_URL + '/stats')
+        .then(r => r.json())
+        .then(data => console.log('Stats:', data))
+        .catch(e => console.error('Stats failed:', e));
+};
+
+// Force update selects when they gain focus
+document.addEventListener('focusin', (e) => {
+    if (e.target.classList.contains('form-select')) {
+        updateSelectDropdowns();
+    }
 });
